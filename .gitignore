@@ -1,0 +1,59 @@
+# Visual Studio / .NET
+
+# Build results
+bin/
+obj/
+
+# Visual Studio cache/options files
+*.user
+*.suo
+*.cache
+*.vs/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored because of package restore
+**/packages/*
+!**/packages/build
+!**/packages/repositories.config
+
+# VS Code settings
+.vscode/
+
+# Logs
+*.log
+
+# config file
+config.json
+
+# Compiled DLLs / executables
+*.dll
+*.exe
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# JetBrains Rider
+.idea/
+
+# dotnet core
+project.lock.json
+project.fragment.lock.json
+
+# User-specific files
+*.user
+
+# other
+*.pdb
+*.mdb
+
+# ignore built output folders outside src as well
+debug/
+release/
+
+# ignore AutoClips.sln
+AutoClips.sln

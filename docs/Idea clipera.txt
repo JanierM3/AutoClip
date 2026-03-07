@@ -1,0 +1,49 @@
+Objetivo del proyecto
+
+Crear una aplicación ligera que capture automáticamente clips de videojuegos cuando ocurran eventos interesantes, usando un buffer de grabación continua.
+
+Ideas 
+
+Idea aplicacion que saque clips automaticos segun x(ejemplos: momentos divertidos, bug, bug divertidos, jugadas epicas, partidas epicas, muertes divertidas, muertes extrañas, dialogos divertidos) situacion
+El programa debera ejecutarse en cualquier juego
+Se agregara el juego al programa o que el programa lea los juegos que se tengan en el pc debera tomar cualquier juego
+Los clips se sacaran de forma automatica
+La idea es que corra en pc buenas y malas osea el programa no puede consumir tantos recursos del pc
+Se le notificara al usuario que se ha creado el clic
+La app se debera actualizar permitiendole al usuario si instalar dicha actualizacion o no
+
+Preguntas para saber mejor que voy ahacer
+
+¿Que voy a construir exactamente?
+Voy hacer una app o software que ayude a personas a sacar clips automaticos de sus partidas de videojuegos ya arriba expuse mis ideas
+La idea de sacar clips es que el programa se estara ejecutandose mientras el jugador esta jugando para y mientraas pasen cosas que expuse en la idea arriba se capturara y se almacenara en la carpeta que el usuario elija
+
+¿Cual es el resultado final esperado?
+Que el software cumpla con su funcion a desenpeñar la cual es que saque clips automaticamente y que funcione correctamente
+
+¿Que pasos necesesito para llegar hay?
+No se todavia
+
+¿Que puede fallar en el camino?
+1. Que no captures los clips
+2. Que no guarde los archivos en la carpeta seleccionada
+3. Que los formatos fallen
+4. Errores al comprimir archivos grandes por ejemplo video en negro, experiencia personal cuando estaba grabando aveces el programa se bugeaba y la grabacion salia en negro
+5. Yo quiero decir me podria enfermar, dañarseme el pc etc...
+6. Y el resto saldra cuando se este haciendo y probando el programa
+
+¿Que herramientas voy a usar?
+1. Editor de codigo visual studio code
+2. No e mirado esta parte el resto de cosas que requiero para esto
+3. Lenguaje c#
+
+Interfaz del programa
+1. Hacerla funcional nada de pulir primero que funcione 
+
+
+FUTURAS UPDATES
+1. Que cacture el microfono y en base a eso saque clips tambien
+2. Que capture con camara
+3. Que grabes los clips en formato de clips quiero decir formato orizontal 
+
+
