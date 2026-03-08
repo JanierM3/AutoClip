@@ -47,3 +47,93 @@ FUTURAS UPDATES
 3. Que grabes los clips en formato de clips quiero decir formato orizontal 
 
 
+# Lo que el programa ya tiene
+
+Config
+│
+├─ Games registrados
+├─ Carpeta de clips
+│
+GameWatcher
+│
+├─ revisa el sistema cada 5 segundos
+│
+GameDetector
+│
+├─ busca procesos de juegos
+│
+GameSessionManager
+│
+├─ detecta inicio de sesión
+├─ detecta fin de sesión
+│
+SessionStorage
+│
+└─ guarda sesiones en JSON
+
+# El flujo actual de la version v0
+
+Config
+│
+├─ Games registrados
+├─ Carpeta de clips
+│
+GameWatcher
+│
+├─ revisa el sistema cada 5 segundos
+│
+GameDetector
+│
+├─ busca procesos de juegos
+│
+GameSessionManager
+│
+├─ detecta inicio de sesión
+├─ detecta fin de sesión
+│
+SessionStorage
+│
+└─ guarda sesiones en JSON
+
+# Ubicarme en el proyecto
+
+AutoClips
+│
+├── Config
+│     guardar configuración
+│
+├── Events
+│     detectar juegos
+│
+├── Core
+│     lógica principal
+│
+├── Storage
+│     guardar datos
+│
+└── App
+      menú del programa
+
+# mapa mental de AutoClips
+                AutoClips
+                    │
+        ┌───────────┼───────────┐
+        │                           │
+     Config                      Runtime
+        │                           │
+        │                           │
+   ┌────┴────┐            ┌─────────┴─────────┐
+   │         │            │                   │
+Games     ClipsFolder   GameWatcher        Hotkeys
+                            │
+                            │
+                       GameDetector
+                            │
+                            │
+                    GameSessionManager
+                            │
+                            │
+                     SessionStorage
+                            │
+                            │
+                       sessions.json

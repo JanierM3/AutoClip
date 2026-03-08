@@ -1,4 +1,5 @@
 using AutoClips.Config;
+using AutoClips.Core;
 using System.Threading;
 using System;
 
@@ -6,28 +7,18 @@ namespace AutoClips.Events;
 
 public class GameWatcher
 {
-    private readonly GameDetector detector = new GameDetector(); // Instancia de GameDetector
-    private bool gameRunning = false; // Indica si el juego esta abierto
+    private readonly GameDetector detector = new GameDetector(); // Crear una instancia de GameDetector
+    private readonly GameSessionManager sessionManager = new GameSessionManager(); // Crear una instancia de GameSessionManager
 
-    public void Start(AppConfig config) // Iniciar GameWatcher
+    public void Start(AppConfig config)
     {
-        Console.WriteLine("GameWatcher iniciado..."); // Mostrar mensaje
+        Console.WriteLine("GameWatcher iniciado");
 
         while (true)
         {
-            bool detected = detector.CheckGames(config); // Verificar si el juego esta abierto
+            var detectedGame = detector.DetectGame(config); // Verificar si el juego esta abierto
 
-            if (detected && !gameRunning) // Si el juego esta abierto y no esta activo
-            {
-                Console.WriteLine("Juego detectado. AutoClips activado."); // Activar AutoClips
-                gameRunning = true; // Establecer el juego como abierto
-            }
-
-            if (!detected && gameRunning) // Si el juego esta cerrado y esta activo
-            {
-                Console.WriteLine("Juego cerrado. AutoClips desactivado."); // Desactivar AutoClips
-                gameRunning = false; // Establecer el juego como cerrado
-            }
+            sessionManager.Update(detectedGame); // Actualizar el estado de la sesión
 
             Thread.Sleep(5000); // Esperar 5 segundos
         }

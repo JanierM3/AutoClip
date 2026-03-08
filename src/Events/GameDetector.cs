@@ -1,31 +1,35 @@
+#nullable enable // Habilitar la anotación nullable
+/*
+"The annotation for nullable reference types should only be used in code within a '#nullable' annotations context"
+Igual esto se puede desabilitar asi #nullable disable y listo solo quitas el ? de string, en si puedes quitar el ? de string y ya
+*/
+
 using System.Diagnostics;
 using AutoClips.Config;
 using System;
+using System.IO;
 
 namespace AutoClips.Events;
 
 public class GameDetector
 {
-    public bool CheckGames(AppConfig config) // Verificar si el juego esta abierto
+    public string? DetectGame(AppConfig config)
     {
-        var processes = Process.GetProcesses(); // Obtener los procesos
+        var processes = Process.GetProcesses();
 
-        foreach (var game in config.Games) // Recorrer la lista de juegos
+        foreach (var game in config.Games)
         {
-            var exeName = System.IO.Path
-                .GetFileNameWithoutExtension(game.Executable); // Obtener el nombre del archivo
+            var exeName = Path.GetFileNameWithoutExtension(game.Executable);
 
-            foreach (var process in processes) // Recorrer los procesos
+            foreach (var process in processes)
             {
-                if (process.ProcessName //  Comparar el nombre del proceso con el nombre del ejecutable
-                    .Equals(exeName,
-                    StringComparison.OrdinalIgnoreCase)) // Ignorar mayúsculas
+                if (process.ProcessName.Equals(exeName, StringComparison.OrdinalIgnoreCase))
                 {
-                    return true; // El juego esta abierto
+                    return game.Name;
                 }
             }
         }
 
-        return false; // El juego no esta abierto
+        return null;
     }
 }

@@ -3,6 +3,7 @@ using AutoClips.Config;
 using AutoClips.Core;
 using AutoClips.Storage;
 using AutoClips.Events;
+using System.Reflection.Metadata;
 
 namespace AutoClips.App
 {
@@ -43,7 +44,7 @@ namespace AutoClips.App
 
                     case "4":
                         GameDetector detector = new GameDetector(); // Crear una instancia de GameDetector
-                        detector.CheckGames(config); // Comprobar juegos
+                        detector.DetectGame(config); // Comprobar juegos
                         break;
 
                     case "5":
