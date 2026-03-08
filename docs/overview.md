@@ -65,7 +65,7 @@ Settings are stored in `config.json` in the working directory of the application
 
 ```json
 {
-  "ClipsFolder": "C:\\Users\\Siete\\Videos\\Clips",
+  "ClipsFolder": "C:\\Users\\Pepo\\Videos\\Clips",
   "Games": [
     {
       "Name": "League of Legends",
