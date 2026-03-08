@@ -2,6 +2,7 @@ using System;
 using AutoClips.Config;
 using AutoClips.Core;
 using AutoClips.Storage;
+using AutoClips.Events;
 
 namespace AutoClips.App
 {
@@ -18,7 +19,9 @@ namespace AutoClips.App
                 Console.WriteLine("1 - Registrar juego");
                 Console.WriteLine("2 - Ver juegos");
                 Console.WriteLine("3 - Definir carpeta clips");
-                Console.WriteLine("4 - Salir");
+                Console.WriteLine("4 - Detectar juegos abiertos");
+                Console.WriteLine("5 - Iniciar GameWatcher");
+                Console.WriteLine("6 - Salir");
 
                 string option = Console.ReadLine();
 
@@ -39,10 +42,20 @@ namespace AutoClips.App
                         break;
 
                     case "4":
+                        GameDetector detector = new GameDetector(); // Crear una instancia de GameDetector
+                        detector.CheckGames(config); // Comprobar juegos
+                        break;
+
+                    case "5":
+                        GameWatcher watcher = new GameWatcher(); // Crear una instancia de GameWatcher
+                        watcher.Start(config); // Iniciar GameWatcher
+                        break;
+
+                    case "6":
                         return;
 
                     default:
-                        Console.WriteLine("Opcion no valida.");
+                        Console.WriteLine("Opcion no valida."); // Mostrar mensaje de error
                         break;
                 }
             }

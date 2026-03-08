@@ -10,6 +10,7 @@ AutoClips es una herramienta de consola escrita en C# para capturar y gestionar 
 - Listar los juegos configurados
 - Definir la carpeta donde se guardarán los clips
 - Persistencia de la configuración en un archivo JSON
+- Detectar juego automaticamente basado en procesos de window
 
 ## Estructura del proyecto
 
@@ -80,4 +81,3 @@ Consulta la guía en `docs/overview.md` para pasos rápidos sobre cómo colabora
 ## Licencia
 
 Pendiente de especificar.
-
