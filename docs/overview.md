@@ -1,71 +1,80 @@
-# AutoClips Overview
+# AutoClips Visión General
 
-AutoClips is a simple, extensible tool written in C# that is intended to capture and manage video clips of games automatically. The project is still in an early stage; the current implementation is a console-based prototype for registering games and configuring where clips will be stored. Future work will add capture, buffering, processing, notifications and an updater.
+AutoClips es una herramienta simple y extensible escrita en C# diseñada para capturar y gestionar clips de video de juegos automáticamente. El proyecto se encuentra en una etapa temprana; la implementación actual es un prototipo basado en consola para registrar juegos y configurar dónde se almacenarán los clips. El trabajo futuro añadirá captura, almacenamiento en búfer, procesamiento, notificaciones y un actualizador.
 
-## Current Functionality
+## Funcionalidad Actual
 
-- **Game registration** – users can add a game by providing a name and the path to its executable.
-- **Game listing** – view the list of games that have been configured.
-- **Clips folder configuration** – choose the directory where clips will be saved.
-- **Persistent configuration** – settings are serialized to `config.json` using `System.Text.Json`.
+- **Registro de juegos** – los usuarios pueden agregar un juego proporcionando un nombre y la ruta a su ejecutable.
+- **Listado de juegos** – ver la lista de juegos configurados.
+- **Configuración de carpeta de clips** – elegir el directorio donde se guardarán los clips.
+- **Configuración persistente** – la configuración se guarda en `config.json` usando `System.Text.Json`.
+- **Detección automática de juegos** – detecta cuando un juego registrado está en ejecución basado en los procesos de Windows.
+- **Monitoreo de sesiones** – registra el tiempo de juego (inicio, fin y duración).
+- **Hotkey (F8)** – detecta la tecla F8 globalmente para solicitar un clip.
 
-## Architecture
+## Arquitectura
 
-The project adheres to a modular layout under the `src/` folder.
+El proyecto sigue un diseño modular bajo la carpeta `src/`.
 
 ```
 src/
-  App/          # Entry point and user interaction (console UI)
-  Config/       # Data transfer objects for configuration
-  Core/         # Domain entities (e.g. `Game`)
-  Storage/      # Persistence logic (e.g. `ConfigManager`)
-  Capture/      # (planned) screen‑capture components
-  Buffer/       # (planned) in‑memory buffering of video data
-  ClipProcessing/ # (planned) processing logic for clips
-  Events/       # (planned) eventing system
-  Notifications/ # (planned) notification support
-  Updater/      # (planned) update mechanism
+  App/          # Punto de entrada e interacción de usuario (UI de consola)
+  Config/       # Objetos de transferencia de datos para configuración
+  Core/         # Entidades de dominio (ej. `Game`, `GameSession`)
+  Storage/      # Lógica de persistencia (ej. `ConfigManager`, `SessionStorage`)
+  Events/       # Sistema de eventos (GameDetector, GameWatcher, HotkeyListener)
+  Capture/      # (planificado) componentes de captura de pantalla
+  Buffer/       # (planificado) almacenamiento en memoria de datos de video
+  ClipProcessing/ # (planificado) lógica de procesamiento de clips
+  Notifications/ # (planificado) soporte de notificaciones
+  Updater/      # (planificado) mecanismo de actualización
 ```
 
-Each namespace mirrors the folder name and contains related classes.  At present only `App`, `Config`, `Core` and `Storage` include code.
+Cada namespace refleja el nombre de la carpeta y contiene clases relacionadas. Actualmente solo `App`, `Config`, `Core`, `Storage` y `Events` contienen código.
 
-### Key types
+### Tipos Clave
 
-* `AutoClips.Core.Game` – represents a game to monitor. Contains `Name` and `Executable` properties.
-* `AutoClips.Config.AppConfig` – holds the user’s settings (clip folder and list of games).
-* `AutoClips.Storage.ConfigManager` – reads/writes the configuration to a JSON file named `config.json`.
-* `AutoClips.App.Program` – console UI. Drives a simple menu and delegates to helper methods.
+- `AutoClips.Core.Game` – representa un juego a monitorear. Contiene propiedades `Name` y `Executable`.
+- `AutoClips.Core.GameSession` – representa una sesión de juego registrada con inicio, fin y duración.
+- `AutoClips.Config.AppConfig` – contiene la configuración del usuario (carpeta de clips y lista de juegos).
+- `AutoClips.Storage.ConfigManager` – lee/escribe la configuración en un archivo JSON llamado `config.json`.
+- `AutoClips.Storage.SessionStorage` – guarda las sesiones de juego en `sessions.json`.
+- `AutoClips.Events.GameDetector` – detecta si un juego registrado está en ejecución.
+- `AutoClips.Events.GameWatcher` – monitorea continuamente los juegos en un bucle.
+- `AutoClips.Events.HotkeyListener` – detecta la tecla F8 globalmente.
+- `AutoClips.Core.SessionStats` – calcula el tiempo total de juego desde `sessions.json`.
+- `AutoClips.App.Program` – UI de consola. Controla un menú simple y delega a métodos auxiliares.
 
-## Building and Running
+## Compilación y Ejecución
 
-### Prerequisites
+### Requisitos Previos
 
-* [.NET 6 SDK](https://dotnet.microsoft.com/download) or later installed on Windows.
+- [.NET SDK 6](https://dotnet.microsoft.com/download) o superior instalado en Windows.
 
-### Build
+### Compilar
 
 ```powershell
-# from workspace root
-cd src/App
+# desde la raíz del proyecto
 dotnet build
 ```
 
-### Run
+### Ejecutar
 
 ```powershell
-# run using the project file
-dotnet run --project src/App/AutoClips.App.csproj
+dotnet run
 ```
 
-A console menu will appear with options to add games, view games, set the clips folder, or exit.
+Aparecerá un menú de consola con opciones para agregar juegos, ver juegos, establecer la carpeta de clips, detectar juegos, iniciar el monitoreo de juegos, iniciar el listener de F8, o salir.
 
-## Configuration File
+## Archivos de Configuración
 
-Settings are stored in `config.json` in the working directory of the application. The file is automatically created when the program saves the configuration for the first time.  Example structure:
+### config.json
+
+La configuración se guarda en `config.json` en el directorio de trabajo de la aplicación. El archivo se crea automáticamente cuando el programa guarda la configuración por primera vez. Ejemplo:
 
 ```json
 {
-  "ClipsFolder": "C:\\Users\\Pepo\\Videos\\Clips",
+  "ClipsFolder": "C:\\Users\\Usuario\\Videos\\Clips",
   "Games": [
     {
       "Name": "League of Legends",
@@ -75,29 +84,44 @@ Settings are stored in `config.json` in the working directory of the application
 }
 ```
 
-## Testing
+### sessions.json
 
-There are no unit tests yet. The `tests/` directory exists to hold future test projects.
+Las sesiones de juego se guardan automáticamente en `sessions.json` cuando un juego se cierra. Ejemplo:
+
+```json
+[
+  {
+    "GameName": "League of Legends",
+    "StartTime": "2024-01-15T14:30:00",
+    "EndTime": "2024-01-15T15:45:00",
+    "Duration": "01:15:00"
+  }
+]
+```
+
+## Pruebas
+
+Aún no hay pruebas unitarias. El directorio `tests/` existe para futuros proyectos de pruebas.
 
 ## Roadmap
 
-Planned features include:
+Características planeadas:
 
-- Automatic screen capture when a registered game is running
-- In‑memory buffering to avoid recording entire sessions
-- Clip processing (trimming, encoding)
-- Storage providers for local/remote clips
-- Event subsystem for decoupled components
-- Notification support (desktop alerts, etc.)
-- Self‑updater to keep the application current
+- Captura automática de pantalla cuando un juego registrado está en ejecución
+- Almacenamiento en búfer en memoria para evitar grabar sesiones completas
+- Procesamiento de clips (recorte, codificación)
+- Proveedores de almacenamiento para clips locales/remotos
+- Subsistema de eventos para componentes desacoplados
+- Soporte de notificaciones (alertas de escritorio, etc.)
+- Auto-actualizador para mantener la aplicación actualizada
 
-## Contributing
+## Cómo Contribuir
 
-1. Fork the repository
-2. Add your feature or fix in a new branch
-3. Follow the existing folder/namespace conventions
-4. Submit a pull request
+1. Haz fork del repositorio
+2. Agrega tu característica o corrección en una nueva rama
+3. Sigue las convenciones existentes de carpetas y namespaces
+4. Envía un pull request
 
-## License
+## Licencia
 
-TBD – add license information when decided.
+Por determinar – agregar información de licencia cuando se decida.

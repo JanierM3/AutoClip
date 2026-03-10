@@ -71,6 +71,14 @@ SessionStorage
 │
 └─ guarda sesiones en JSON
 
+HotkeyListener
+│
+└─ detecta tecla F8 globalmente
+
+SessionStats
+│
+└─ calcula tiempo total de juego
+
 # El flujo actual de la version v0
 
 Config
@@ -95,6 +103,15 @@ SessionStorage
 │
 └─ guarda sesiones en JSON
 
+HotkeyListener
+│
+├─ detecta F8 globalmente
+├─ corre en segundo plano (thread)
+│
+SessionStats
+│
+└─ lee sessions.json y calcula tiempo total
+
 # Ubicarme en el proyecto
 
 AutoClips
@@ -115,25 +132,30 @@ AutoClips
       menú del programa
 
 # mapa mental de AutoClips
-                AutoClips
-                    │
-        ┌───────────┼───────────┐
-        │                           │
-     Config                      Runtime
-        │                           │
-        │                           │
-   ┌────┴────┐            ┌─────────┴─────────┐
-   │         │            │                   │
-Games     ClipsFolder   GameWatcher        Hotkeys
-                            │
-                            │
-                       GameDetector
-                            │
-                            │
-                    GameSessionManager
-                            │
-                            │
-                     SessionStorage
-                            │
-                            │
-                       sessions.json
+                 AutoClips
+                     │
+         ┌───────────┼───────────┐
+         │                           │
+      Config                      Runtime
+         │                           │
+         │                           │
+    ┌────┴────┐            ┌─────────┴─────────┐
+    │         │            │                   │
+ Games     ClipsFolder   GameWatcher        Hotkeys
+                             │                   │
+                             │              HotkeyListener
+                             │             (detecta F8)
+                        GameDetector
+                             │
+                             │
+                     GameSessionManager
+                             │
+                             │
+                      SessionStorage
+                             │
+                             │
+                        sessions.json
+                             │
+                             │
+                        SessionStats
+                    (calcula tiempo total)

@@ -1,9 +1,9 @@
 using System;
+using System.Threading;
 using AutoClips.Config;
 using AutoClips.Core;
 using AutoClips.Storage;
 using AutoClips.Events;
-using System.Reflection.Metadata;
 
 namespace AutoClips.App
 {
@@ -22,7 +22,8 @@ namespace AutoClips.App
                 Console.WriteLine("3 - Definir carpeta clips");
                 Console.WriteLine("4 - Detectar juegos abiertos");
                 Console.WriteLine("5 - Iniciar GameWatcher");
-                Console.WriteLine("6 - Salir");
+                Console.WriteLine("6 - Iniciar HotkeyListener (F8)");
+                Console.WriteLine("7 - Salir");
 
                 string option = Console.ReadLine();
 
@@ -53,6 +54,14 @@ namespace AutoClips.App
                         break;
 
                     case "6":
+                        HotkeyListener listener = new HotkeyListener(); // Crear una instancia 
+                        Thread listenerThread = new Thread(() => listener.Listen()); // Crear un hilo
+                        listenerThread.IsBackground = true; // Hilo secundario (no bloquea cierre)
+                        listenerThread.Start(); // Iniciar el hilo
+                        Console.WriteLine("HotkeyListener iniciado en segundo plano");
+                        break;
+
+                    case "7":
                         return;
 
                     default:
