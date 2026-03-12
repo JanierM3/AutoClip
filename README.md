@@ -6,15 +6,14 @@ AutoClips es una herramienta de consola escrita en C# para capturar y gestionar 
 
 ## Características Actuales
 
-- Registrar juegos con nombre y ruta al ejecutable
-- Listar los juegos configurados
-- Definir la carpeta donde se guardarán los clips
+- Registrar juegos con nombre y ruta al ejecutable (con validación)
+- Listar los juegos configurados (muestra mensaje si no hay juegos)
+- Definir la carpeta donde se guardarán los clips (con validación y creación automática)
 - Persistencia de la configuración en `config.json`
-- Detectar juego automáticamente basado en procesos de Windows
-- Monitoreo continuo de juegos (GameWatcher)
-- Registro de sesiones de juego (inicio, fin, duración)
+- Detectar juego abierto y mostrar cuál está en ejecución
+- Monitoreo continuo de juegos (GameWatcher - se ejecuta en segundo plano)
+- Verificar que hay un juego abierto antes de iniciar el HotkeyListener
 - Detección de tecla F8 globalmente
-- Ver estadísticas de tiempo total jugado
 
 ## Estructura del Proyecto
 
@@ -24,14 +23,9 @@ La estructura de carpetas refleja la arquitectura modular del proyecto:
 src/
   App/          # Entrada y UI de consola
   Config/       # Clases de configuración
-  Core/         # Entidades de dominio (Game, GameSession, HotkeyListener)
+  Core/         # Entidades de dominio (Game, GameSession, HotkeyListener, SessionStats)
   Storage/      # Lógica de persistencia (ConfigManager, SessionStorage)
   Events/       # Sistema de eventos (GameDetector, GameWatcher)
-  Capture/      # (planeado) captura de pantalla
-  Buffer/       # (planeado) gestión de buffer
-  ClipProcessing/ # (planeado) procesamiento de clips
-  Notifications/ # (planeado) notificaciones
-  Updater/      # (planeado) actualizaciones automáticas
 ```
 
 Los detalles de la arquitectura y los tipos clave se encuentran en la documentación dentro de `docs/overview.md`.
